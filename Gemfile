@@ -33,7 +33,7 @@ group :development do
 end
 group :default do
   gem "backport_dig",                                          require: false if Gem::Version.new(RUBY_VERSION.dup) < Gem::Version.new('2.3.0')
-  gem "puppetmodule-netdev_stdlib", git: 'https://github.com/puppetlabs/netdev_stdlib.git'
+  gem "puppetmodule-netdev_stdlib", git: 'https://github.com/thomas-franklin/netdev_stdlib.git', ref: 'testing_agent_workarounds'
   gem "net-ssh-telnet",                                        require: false
 end
 group :system_tests do
