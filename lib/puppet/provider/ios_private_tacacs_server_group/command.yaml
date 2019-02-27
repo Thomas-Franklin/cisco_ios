@@ -1,0 +1,29 @@
+---
+get_values:
+  default: 'show running-config | begin aaa group server tacacs'
+get_instances:
+  default: 'aaa group server tacacs\+ (?:(?:.| |\n )*\n)'
+set_values:
+    default: '<state> aaa group server tacacs+ <name>'
+ensure_is_state:
+  default: 'true'
+attributes:
+  # server-private {ip-address | name} [nat] [single-connection] [port port-number] [timeout seconds] [key [0 | 7] string] 
+  nat:
+    default:
+      get_value: 'server-private (.[^\s]*) (?<nat>nat)'
+  single_connection:
+    default:
+      get_value: 'server-private (.[^\s]*)( nat|\s?) (?<single-connection>single-connection)'
+  port:
+    default:
+      get_value: 'server-private (.[^\s]*)( nat|\s?)( single-connection|\s?) (port\s(?<port>\d.[^\s]*))'
+  timeout:
+    default:
+      get_value: 'server-private (.[^\s]*)( nat|\s?)( single-connection|\s?)( port\s\d.[^\s]*|\s?) (timeout\s(?<timeout>\d.[^\s]*))'
+  key_format:
+    default:
+      get_value: 'server-private (.[^\s]*)( nat|\s?)( single-connection|\s?)( port\s\d.[^\s]*|\s?)( timeout\s\d.[^\s]*|\s?)(?: key )?(?<key_format>(7))?'
+  key:
+    default:
+      get_value: 'server-private (.[^\s]*)( nat|\s?)( single-connection|\s?)( port\s\d.[^\s]*|\s?)( timeout\s\d.[^\s]*|\s?)( key(\s7?)?) (?<key>.[^\s|\n]*)?'

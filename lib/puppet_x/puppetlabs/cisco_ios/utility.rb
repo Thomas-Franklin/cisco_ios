@@ -506,6 +506,7 @@ module PuppetX::CiscoIOS
     def self.enforce_simple_types(context, return_value)
       return_value.each do |individual_value_hash|
         individual_value_hash.each do |k, v|
+          next if k == :title
           type_to_use = context.type.definition[:attributes][k][:type]
 
           string_t = Puppet::Pops::Types::TypeFactory.string
@@ -529,7 +530,7 @@ module PuppetX::CiscoIOS
             individual_value_hash[k] = v.to_s
             # Is our type a boolean?
           elsif Puppet::Pops::Types::TypeCalculator.assignable?(calculated_type, boolean_t)
-            individual_value_hash[k] = if v.to_s.casecmp('true').zero?
+            individual_value_hash[k] = if v
                                          true
                                        else
                                          false
